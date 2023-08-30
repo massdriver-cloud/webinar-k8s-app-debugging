@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "massdriver-debugging-webinar.fullname" . }}-webaccess
+  labels:
+    app: webaccess
+spec:
+  ports:
+  - port: 80
+    name: http
+    targetPort: http
+  clusterIP: None
+  selector:
+    app: web-access
+    # app: webaccess

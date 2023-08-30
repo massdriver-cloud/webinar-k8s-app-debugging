@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "massdriver-debugging-webinar.fullname" . }}-pendres
+  labels:
+    app: pendingresources
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pendingresources
+  template:
+    metadata:
+      labels:
+        app: pendingresources
+    spec:
+      containers:
+        - name: main
+          image: "nginx:1.25"
+          resources:
+            requests:
+              cpu: 20
+              # cpu: .1
+              memory: "100Mi"

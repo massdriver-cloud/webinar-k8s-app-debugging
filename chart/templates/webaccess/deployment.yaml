@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "massdriver-debugging-webinar.fullname" . }}-webaccess
+  labels:
+    app: webaccess
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webaccess
+  template:
+    metadata:
+      labels:
+        app: webaccess
+    spec:
+      containers:
+        - name: main
+          image: "nginx:1.25"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 81
+              # port: http
+          resources:
+            requests:
+              cpu: 0.1
+              memory: "100Mi"
+          ports:
+          - containerPort: 80
+            name: http

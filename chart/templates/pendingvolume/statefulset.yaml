@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "massdriver-debugging-webinar.fullname" . }}-pendvol
+  labels:
+    app: pendingvolume
+spec:
+  selector:
+    matchLabels:
+      app: pendingvolume
+  serviceName: {{ include "massdriver-debugging-webinar.fullname" . }}-pendvol
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pendingvolume
+    spec:
+      containers:
+      - name: main
+        image: "nginx:1.25"
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: {{ include "massdriver-debugging-webinar.fullname" . }}-pendvol
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ include "massdriver-debugging-webinar.fullname" . }}-pendvol
+      labels:
+        app: pendingvolume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "not-real-sc"
+      # storageClassName: "gp2"
+      resources:
+        requests:
+          storage: 10Gi

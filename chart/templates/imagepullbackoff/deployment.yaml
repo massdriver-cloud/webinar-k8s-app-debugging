@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "massdriver-debugging-webinar.fullname" . }}-ipbo
+  labels:
+    app: imagepullbackoff
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: imagepullbackoff
+  template:
+    metadata:
+      labels:
+        app: imagepullbackoff
+    spec:
+      containers:
+        - name: main
+          image: "xnign:1.25"
+          # image: "nginx:1.25"
+          resources:
+            requests:
+              cpu: 0.1
+              memory: "100Mi"

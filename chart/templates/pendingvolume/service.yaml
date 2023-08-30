@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "massdriver-debugging-webinar.fullname" . }}-pendvol
+  labels:
+    app: pendingvolume
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: pendingvolume

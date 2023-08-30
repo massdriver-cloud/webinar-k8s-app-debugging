@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  labels:
+    app: webaccess
+  name: {{ include "massdriver-debugging-webinar.fullname" . }}-webaccess
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: webinar.mdawssbx.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ include "massdriver-debugging-webinar.fullname" . }}-webaccess
+            port:
+              number: 81
+              # name: http
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - webinar.mdawssbx.com
+    secretName: {{ include "massdriver-debugging-webinar.fullname" . }}-webaccess

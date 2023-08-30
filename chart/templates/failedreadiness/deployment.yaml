@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "massdriver-debugging-webinar.fullname" . }}-failrdy
+  labels:
+    app: failedreadiness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: failedreadiness
+  template:
+    metadata:
+      labels:
+        app: failedreadiness
+    spec:
+      containers:
+        - name: main
+          image: "nginx:1.25"
+          readinessProbe:
+            httpGet:
+              path: /notrealendpoint
+              # path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          resources:
+            requests:
+              cpu: 0.1
+              memory: "100Mi"
