@@ -8,7 +8,7 @@ Check on the pod status.
 kubectl get pod -n debugging -l app=crashloopbackoff
 ```
 
-You'll see that the application is in a CrashLoopBackOff. This means that the pod is starting to run, crashing, being restarted by Kubernetes, and continuing to fail. The "BackOff" means that Kubernetes will wait an increasing amount of time (up to 5 minutes by default) between restarts to prevent unnecessary thrashing of workloads.
+You'll see that the application is in a CrashLoopBackOff. This means that the pod is starting to run, crashing, being restarted by Kubernetes, and continuing to fail. Thats the "CrashLoop" part. The "BackOff" means that Kubernetes will wait an increasing amount of time (up to 5 minutes by default) between restarts to prevent unnecessary thrashing of workloads.
 
 A pod crashing is the result of one or more docker containers within the pod crashing. This means the problem is an application error, not a kubernetes error. To diagnose the application, let's check the application logs:
 
